@@ -3,312 +3,289 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GIS Intelligence Platform — Subscriptions, Content & Deals</title>
-  <meta name="description" content="Manage GIS subscriptions, publish intelligence, track validation, and close enterprise deals."/>
-  <link rel="canonical" href="https://gangaryb.github.io/Consulting-/platform.html"/>
+  <title>GIS Intelligence Platform — Subscriptions & Deals</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     html,body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
     .glass{background:rgba(15,23,42,.4);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1)}
     .gradient-text{background:linear-gradient(135deg,#06b6d4,#22d3ee,#67e8f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .neon-glow{box-shadow:0 0 22px rgba(34,211,238,.35),0 0 50px rgba(34,211,238,.15)}
-    .subscription-card{transition:all .45s cubic-bezier(.25,.46,.45,.94)}
+    .neon-glow{box-shadow:0 0 20px rgba(34,211,238,.4),0 0 40px rgba(34,211,238,.2)}
+    .subscription-card{transition:all .5s cubic-bezier(.25,.46,.45,.94)}
     .subscription-card:hover{transform:translateY(-8px)}
-    .tier-badge{position:absolute;top:-12px;right:20px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:800;text-transform:uppercase}
-    .feature-check{width:20px;height:20px;background:linear-gradient(135deg,#10b981,#059669);border-radius:999px;display:inline-flex;align-items:center;justify-content:center;margin-right:12px}
-    .access-level{display:inline-block;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+    .tier-badge{position:absolute;top:-12px;right:20px;background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:700;text-transform:uppercase}
+    .feature-check{width:20px;height:20px;background:linear-gradient(135deg,#10b981,#059669);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-right:12px}
+    .access-level{display:inline-block;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
     .access-public{background:#065f46;color:#10b981}.access-subscriber{background:#1e40af;color:#60a5fa}.access-premium{background:#7c2d12;color:#fb923c}.access-executive{background:#581c87;color:#c084fc}
-    .analytics-card{background:linear-gradient(135deg,rgba(15,23,42,.92),rgba(30,41,59,.92));border:1px solid rgba(34,211,238,.3)}
-    .newsletter-template{background:#f8fafc;color:#0f172a;border-radius:14px;overflow:hidden}
-    .content-preview{background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(34,211,238,.06));border-left:4px solid #06b6d4}
-    .live-dot{width:8px;height:8px;border-radius:999px;background:#22c55e;box-shadow:0 0 0 0 rgba(34,197,94,.7);animation:pulse 1.8s infinite}
-    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.6)}70%{box-shadow:0 0 0 12px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
-    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1rem;border-radius:14px;font-weight:600}
-    .btn-primary{background:linear-gradient(90deg,#22d3ee,#06b6d4);color:#0b1220}
-    .btn-primary:hover{filter:brightness(1.05)}
-    .btn-ghost{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
-    .badge{font-size:.7rem;padding:.2rem .5rem;border-radius:999px}
-    .badge-green{background:#064e3b;color:#34d399}.badge-cyan{background:#083344;color:#22d3ee}.badge-yellow{background:#422006;color:#facc15}
-    .kpi{font-variant-numeric:tabular-nums}
-    .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(148,163,184,.35),transparent)}
-    .deal-card{border:1px solid rgba(148,163,184,.18)}
-    .input{background:#0b1220;border:1px solid rgba(148,163,184,.25);border-radius:12px;padding:.75rem}
-    .label{font-size:.8rem;color:#94a3b8;margin-bottom:.35rem;display:block}
-    .sticky-cta{position:fixed;right:16px;bottom:16px;z-index:60}
+    .analytics-card{background:linear-gradient(135deg,rgba(15,23,42,.9),rgba(30,41,59,.9));border:1px solid rgba(34,211,238,.3)}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none}
+    .modal.show{display:flex}
+    .input{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:.75rem;padding:.75rem 1rem;width:100%}
+    .btn{border-radius:.75rem;padding:.75rem 1rem;font-weight:600}
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100">
 
-  <!-- NAV -->
+  <!-- Top Bar -->
   <nav class="glass sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 py-4">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-8">
-          <a href="./index.html" class="flex items-center gap-3">
+          <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400/20 to-cyan-600/20 grid place-items-center">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-cyan-300"><path d="M12 2v20M2 12h20" stroke-width="1.5"/></svg>
             </div>
             <span class="font-bold text-lg">GIS Intelligence Platform</span>
-          </a>
+          </div>
           <div class="hidden md:flex items-center gap-6 text-sm">
             <a href="#dashboard" class="hover:text-cyan-300">Dashboard</a>
             <a href="#subscriptions" class="hover:text-cyan-300">Subscriptions</a>
             <a href="#content" class="hover:text-cyan-300">Content</a>
             <a href="#analytics" class="hover:text-cyan-300">Analytics</a>
-            <a href="#deals" class="hover:text-cyan-300">Deals</a>
+            <a href="#sales" class="hover:text-cyan-300">Sales</a>
             <a href="#settings" class="hover:text-cyan-300">Settings</a>
           </div>
         </div>
         <div class="flex items-center gap-3">
-          <a href="tel:+13472604290" class="btn btn-ghost hidden sm:inline-flex" aria-label="Call">📞 Call</a>
-          <a href="mailto:gangaryba@gmail.com?subject=GIS%20Inquiry" class="btn btn-ghost hidden sm:inline-flex" aria-label="Email">✉️ Email</a>
-          <a href="https://calendly.com/gangaryba" target="_blank" class="btn btn-primary">📅 Book</a>
+          <a href="tel:+13472604290" class="hidden sm:inline px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm">Call</a>
+          <a href="mailto:gangaryba@gmail.com?subject=GIS%20Inquiry" class="hidden sm:inline px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm">Email</a>
+          <a href="https://calendly.com/gangaryba" target="_blank" class="px-3 py-2 rounded-xl bg-cyan-400 text-slate-950 text-sm font-semibold hover:brightness-110">Book</a>
         </div>
       </div>
     </div>
   </nav>
 
-  <main class="max-w-7xl mx-auto px-4 py-8">
+  <main class="max-w-7xl mx-auto px-4 py-10">
 
     <!-- DASHBOARD -->
-    <section id="dashboard" class="mb-14">
+    <section id="dashboard" class="mb-16">
       <div class="flex items-center justify-between mb-8">
         <div>
-          <h1 class="text-4xl md:text-5xl font-extrabold gradient-text mb-2">Intelligence Command Center</h1>
-          <p class="text-slate-400">Publish. Validate. Convert. Close.</p>
+          <h1 class="text-4xl font-bold gradient-text mb-2">Intelligence Command Center</h1>
+          <p class="text-slate-400">Operate subscriptions, content, analytics — and close deals.</p>
         </div>
         <div class="flex items-center gap-3">
-          <button onclick="showContentEditor()" class="btn btn-primary">+ Create Content</button>
-          <button onclick="openLeadModal()" class="btn btn-ghost">Capture Lead</button>
+          <button onclick="openModal('contentModal')" class="btn bg-cyan-500 text-slate-950 hover:brightness-110">+ Create Content</button>
+          <button onclick="openModal('newsletterModal')" class="btn bg-purple-600 hover:bg-purple-700">Send Newsletter</button>
         </div>
       </div>
 
       <div class="grid md:grid-cols-4 gap-6">
         <div class="analytics-card p-6 rounded-2xl">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-slate-400 text-sm">Total Subscribers</span>
-            <span class="badge badge-green">+12%</span>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm text-slate-400">Total Subscribers</span>
+            <div class="w-8 h-8 rounded-lg bg-green-400/20 grid place-items-center">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-green-400"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            </div>
           </div>
-          <div class="text-4xl font-extrabold kpi" id="kpiSubs">2,847</div>
-          <p class="text-slate-400 text-sm mt-2">Cumulative across tiers</p>
+          <div class="text-3xl font-bold" id="total-subscribers">2,847</div>
+          <div class="text-sm text-green-400">+12% this month</div>
         </div>
+
         <div class="analytics-card p-6 rounded-2xl">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-slate-400 text-sm">Premium Members</span>
-            <span class="badge badge-cyan">18%</span>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm text-slate-400">Premium Members</span>
+            <div class="w-8 h-8 rounded-lg bg-purple-400/20 grid place-items-center">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-purple-400"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
           </div>
-          <div class="text-4xl font-extrabold kpi" id="kpiPrem">524</div>
-          <p class="text-slate-400 text-sm mt-2">High intent audience</p>
+          <div class="text-3xl font-bold" id="premium-members">524</div>
+          <div class="text-sm text-purple-400">18% of total</div>
         </div>
+
         <div class="analytics-card p-6 rounded-2xl">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-slate-400 text-sm">Monthly Revenue</span>
-            <span class="badge badge-green">+28%</span>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm text-slate-400">Monthly Revenue</span>
+            <div class="w-8 h-8 rounded-lg bg-cyan-400/20 grid place-items-center">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-cyan-400"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
           </div>
-          <div class="text-4xl font-extrabold kpi" id="kpiMRR">$47,320</div>
-          <p class="text-slate-400 text-sm mt-2">Subscriptions + briefs</p>
+          <div class="text-3xl font-bold" id="monthly-revenue">$47,320</div>
+          <div class="text-sm text-cyan-400">+28% growth</div>
         </div>
+
         <div class="analytics-card p-6 rounded-2xl">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-slate-400 text-sm">Prediction Accuracy</span>
-            <span class="badge badge-yellow">Aug</span>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm text-slate-400">Content Pieces</span>
+            <div class="w-8 h-8 rounded-lg bg-orange-400/20 grid place-items-center">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-orange-400"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            </div>
           </div>
-          <div class="text-4xl font-extrabold kpi" id="kpiAcc">78%</div>
-          <p class="text-slate-400 text-sm mt-2">Validated in DriftCodex™</p>
+          <div class="text-3xl font-bold" id="content-pieces">1,203</div>
+          <div class="text-sm text-orange-400">+15 this week</div>
         </div>
       </div>
     </section>
 
     <!-- SUBSCRIPTIONS -->
     <section id="subscriptions" class="mb-16">
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center justify-between mb-8">
         <h2 class="text-3xl font-bold">Subscription Tiers</h2>
-        <button onclick="addNewTier()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg">+ Add Tier</button>
+        <button onclick="openModal('tierModal')" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-lg font-medium">+ Add Tier</button>
       </div>
+
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- FREE -->
+        <!-- Free -->
         <div class="subscription-card glass p-6 rounded-2xl relative">
           <div class="tier-badge bg-green-500">FREE</div>
-          <h3 class="text-xl font-bold mb-1">Echo Observer</h3>
-          <p class="text-slate-400 text-sm mb-4">Public intelligence updates</p>
-          <div class="text-3xl font-extrabold mb-4">$0<span class="text-lg text-slate-400">/mo</span></div>
-          <ul class="space-y-3 text-sm mb-6">
-            <li class="flex items-center"><span class="feature-check">✔</span>Weekly Echo Reports</li>
-            <li class="flex items-center"><span class="feature-check">✔</span>Public accuracy tracking</li>
-            <li class="flex items-center"><span class="feature-check">✔</span>Basic signal alerts</li>
-          </ul>
+          <div class="mb-6">
+            <h3 class="text-xl font-bold mb-1">Echo Observer</h3>
+            <div class="text-3xl font-bold mb-1">$0<span class="text-lg text-slate-400">/mo</span></div>
+            <p class="text-slate-400 text-sm">Public intelligence updates</p>
+          </div>
+          <div class="space-y-3 mb-6 text-sm">
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>Weekly Echo Reports</div>
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>Public accuracy tracking</div>
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>Basic signal alerts</div>
+          </div>
           <div class="text-center text-slate-500 text-sm mb-4"><span id="free-subscribers">1,847</span> subscribers</div>
-          <button class="w-full py-3 bg-slate-700 hover:bg-slate-600 rounded-xl" onclick="openCheckout('free')">Manage Free Tier</button>
+          <div class="flex gap-2">
+            <button class="w-1/2 py-3 bg-slate-700 hover:bg-slate-600 rounded-xl font-medium">Manage</button>
+            <a href="https://calendly.com/gangaryba" target="_blank" class="w-1/2 py-3 bg-cyan-400 text-slate-950 rounded-xl font-semibold text-center">Upgrade ▶</a>
+          </div>
         </div>
 
-        <!-- SUBSCRIBER -->
+        <!-- Subscriber -->
         <div class="subscription-card glass p-6 rounded-2xl relative neon-glow">
           <div class="tier-badge">POPULAR</div>
-          <h3 class="text-xl font-bold mb-1">DriftCodex Subscriber</h3>
-          <p class="text-slate-400 text-sm mb-4">Full intelligence access</p>
-          <div class="text-3xl font-extrabold mb-4">$29<span class="text-lg text-slate-400">/mo</span></div>
-          <ul class="space-y-3 text-sm mb-6">
-            <li class="flex items-center"><span class="feature-check">✔</span>Everything in Echo Observer</li>
-            <li class="flex items-center"><span class="feature-check">✔</span>Private DriftCodex™ access</li>
-            <li class="flex items-center"><span class="feature-check">✔</span>Bi-weekly briefs</li>
-            <li class="flex items-center"><span class="feature-check">✔</span>Early prediction access</li>
-          </ul>
+          <div class="mb-6">
+            <h3 class="text-xl font-bold mb-1">DriftCodex Subscriber</h3>
+            <div class="text-3xl font-bold mb-1">$29<span class="text-lg text-slate-400">/mo</span></div>
+            <p class="text-slate-400 text-sm">Full intelligence access</p>
+          </div>
+          <div class="space-y-3 mb-6 text-sm">
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>Everything in Echo Observer</div>
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>Private DriftCodex™ access</div>
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>Bi-weekly intelligence briefs</div>
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>Early prediction access</div>
+          </div>
           <div class="text-center text-cyan-400 text-sm mb-4"><span id="subscriber-count">743</span> subscribers</div>
-          <button class="w-full py-3 btn-primary rounded-xl" onclick="openCheckout('subscriber')">Start $29/mo</button>
+          <div class="flex gap-2">
+            <button class="w-1/2 py-3 bg-slate-700 hover:bg-slate-600 rounded-xl font-medium">Manage</button>
+            <a href="https://calendly.com/gangaryba" target="_blank" class="w-1/2 py-3 bg-cyan-400 text-slate-950 rounded-xl font-semibold text-center">Book ▶</a>
+          </div>
         </div>
 
-        <!-- PREMIUM -->
+        <!-- Premium -->
         <div class="subscription-card glass p-6 rounded-2xl relative">
           <div class="tier-badge bg-purple-500">PREMIUM</div>
-          <h3 class="text-xl font-bold mb-1">Foresight Premium</h3>
-          <p class="text-slate-400 text-sm mb-4">Advanced intelligence suite</p>
-          <div class="text-3xl font-extrabold mb-4">$99<span class="text-lg text-slate-400">/mo</span></div>
-          <ul class="space-y-3 text-sm mb-6">
-            <li class="flex items-center"><span class="feature-check">✔</span>Everything in Subscriber</li>
-            <li class="flex items-center"><span class="feature-check">✔</span>Weekly sector deep-dives</li>
-            <li class="flex items-center"><span class="feature-check">✔</span>Validation timestamps</li>
-            <li class="flex items-center"><span class="feature-check">✔</span>Direct analyst access</li>
-          </ul>
-          <div class="text-center text-purple-400 text-sm mb-4"><span id="premium-count">214</span> members</div>
-          <button class="w-full py-3 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl" onclick="openCheckout('premium')">Start $99/mo</button>
+          <div class="mb-6">
+            <h3 class="text-xl font-bold mb-1">Foresight Premium</h3>
+            <div class="text-3xl font-bold mb-1">$99<span class="text-lg text-slate-400">/mo</span></div>
+            <p class="text-slate-400 text-sm">Advanced intelligence suite</p>
+          </div>
+          <div class="space-y-3 mb-6 text-sm">
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>Everything in Subscriber</div>
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>Weekly sector deep-dives</div>
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>Validation timestamps</div>
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>Direct analyst access</div>
+          </div>
+          <div class="text-center text-purple-400 text-sm mb-4"><span id="premium-count">214</span> subscribers</div>
+          <div class="flex gap-2">
+            <button class="w-1/2 py-3 bg-slate-700 hover:bg-slate-600 rounded-xl font-medium">Manage</button>
+            <a href="#sales" class="w-1/2 py-3 bg-purple-500 hover:bg-purple-600 rounded-xl font-semibold text-center">Upgrade ▶</a>
+          </div>
         </div>
 
-        <!-- EXECUTIVE -->
+        <!-- Executive -->
         <div class="subscription-card glass p-6 rounded-2xl relative">
           <div class="tier-badge bg-amber-500">EXECUTIVE</div>
-          <h3 class="text-xl font-bold mb-1">Executive Intelligence</h3>
-          <p class="text-slate-400 text-sm mb-4">C-suite intelligence briefings</p>
-          <div class="text-3xl font-extrabold mb-4">$499<span class="text-lg text-slate-400">/mo</span></div>
-          <ul class="space-y-3 text-sm mb-6">
-            <li class="flex items-center"><span class="feature-check">✔</span>Everything in Premium</li>
-            <li class="flex items-center"><span class="feature-check">✔</span>Custom executive reports</li>
-            <li class="flex items-center"><span class="feature-check">✔</span>Private briefing calls</li>
-            <li class="flex items-center"><span class="feature-check">✔</span>24/7 intelligence support</li>
-          </ul>
-          <div class="text-center text-amber-400 text-sm mb-4"><span id="executive-count">43</span> orgs</div>
-          <button class="w-full py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 rounded-xl" onclick="openCheckout('executive')">Apply for Access</button>
+          <div class="mb-6">
+            <h3 class="text-xl font-bold mb-1">Executive Intelligence</h3>
+            <div class="text-3xl font-bold mb-1">$499<span class="text-lg text-slate-400">/mo</span></div>
+            <p class="text-slate-400 text-sm">C-suite intelligence briefings</p>
+          </div>
+          <div class="space-y-3 mb-6 text-sm">
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>Everything in Premium</div>
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>Custom executive reports</div>
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>Private briefing calls</div>
+            <div class="flex items-center"><span class="feature-check"><svg width="12" height="12" fill="white" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12 3.41 13.41 9 19 21 7 19.59 5.59z"/></svg></span>24/7 intelligence support</div>
+          </div>
+          <div class="text-center text-amber-400 text-sm mb-4"><span id="executive-count">43</span> subscribers</div>
+          <div class="flex gap-2">
+            <button class="w-1/2 py-3 bg-slate-700 hover:bg-slate-600 rounded-xl font-medium">Manage</button>
+            <a href="#sales" class="w-1/2 py-3 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl font-semibold text-center">Talk to Sales ▶</a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- CONTENT LIBRARY -->
+    <!-- CONTENT -->
     <section id="content" class="mb-16">
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center justify-between mb-8">
         <h2 class="text-3xl font-bold">Content Library</h2>
         <div class="flex gap-3">
-          <select id="content-filter" class="px-3 py-2 bg-slate-800 rounded-lg text-sm" onchange="filterContent()">
-            <option value="all">All</option><option value="public">Public</option>
-            <option value="subscriber">Subscriber</option><option value="premium">Premium</option>
+          <select id="content-filter" class="px-4 py-2 bg-slate-800 rounded-lg text-sm">
+            <option value="all">All Content</option>
+            <option value="public">Public</option>
+            <option value="subscriber">Subscriber Only</option>
+            <option value="premium">Premium</option>
             <option value="executive">Executive</option>
           </select>
-          <button onclick="showContentEditor()" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded-lg">+ Create</button>
+          <button onclick="openModal('contentModal')" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded-lg font-medium">+ Create Content</button>
         </div>
       </div>
 
-      <div id="content-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Public -->
-        <article class="content-item glass p-6 rounded-2xl" data-access="public">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="content-grid">
+        <!-- Sample Items -->
+        <div class="content-item glass p-6 rounded-2xl" data-access="public">
           <div class="flex items-center justify-between mb-3">
             <span class="access-level access-public">Public</span>
-            <div class="flex items-center gap-2 text-sm text-slate-400"><span class="live-dot"></span>Live</div>
-          </div>
-          <h3 class="text-lg font-semibold mb-2">Weekly Echo Report #47</h3>
-          <p class="text-slate-400 text-sm mb-4">AI culture debates validated; biotech immune drift receipts logged; market sentiment inversion watch…</p>
-          <div class="flex items-center justify-between">
-            <span class="text-xs text-slate-500">Aug 30, 2025</span>
-            <div class="flex gap-2">
-              <button class="px-3 py-1 bg-slate-700 rounded text-xs" onclick="openShare('https://umtcanon.blogspot.com')">Share</button>
-              <button class="px-3 py-1 bg-slate-700 rounded text-xs" onclick="editItem(this)">Edit</button>
+            <div class="text-sm text-slate-400 flex items-center gap-2">
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <span>2.3k views</span>
             </div>
           </div>
-        </article>
+          <h3 class="text-lg font-semibold mb-1">Weekly Echo Report #47</h3>
+          <p class="text-slate-400 text-sm mb-4">AI consciousness debates hit mainstream media as predicted. Biotech immune drift validation…</p>
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-slate-500">Aug 30, 2025</span>
+            <button class="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded text-xs">Edit</button>
+          </div>
+        </div>
 
-        <!-- Subscriber -->
-        <article class="content-item glass p-6 rounded-2xl" data-access="subscriber">
+        <div class="content-item glass p-6 rounded-2xl" data-access="subscriber">
           <div class="flex items-center justify-between mb-3">
             <span class="access-level access-subscriber">Subscriber</span>
             <div class="text-sm text-slate-400">743 readers</div>
           </div>
-          <h3 class="text-lg font-semibold mb-2">DriftCodex: Q4 2025 Biotech Predictions</h3>
-          <p class="text-slate-400 text-sm mb-4">Rare-disease gene therapy windows, FDA cadence maps, trial readouts forecast timeline…</p>
+          <h3 class="text-lg font-semibold mb-1">DriftCodex: Q4 2025 Biotech Predictions</h3>
+          <p class="text-slate-400 text-sm mb-4">Exclusive predictive analysis of biotech movements, regulatory changes, trial probabilities…</p>
           <div class="flex items-center justify-between">
             <span class="text-xs text-slate-500">Aug 28, 2025</span>
-            <div class="flex gap-2">
-              <button class="px-3 py-1 bg-slate-700 rounded text-xs" onclick="gatePreview('subscriber')">Preview Gate</button>
-              <button class="px-3 py-1 bg-slate-700 rounded text-xs" onclick="editItem(this)">Edit</button>
-            </div>
+            <button class="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded text-xs">Edit</button>
           </div>
-        </article>
+        </div>
 
-        <!-- Premium -->
-        <article class="content-item glass p-6 rounded-2xl" data-access="premium">
+        <div class="content-item glass p-6 rounded-2xl" data-access="premium">
           <div class="flex items-center justify-between mb-3">
             <span class="access-level access-premium">Premium</span>
             <div class="text-sm text-slate-400">214 members</div>
           </div>
-          <h3 class="text-lg font-semibold mb-2">Validation Report: August Accuracy</h3>
-          <p class="text-slate-400 text-sm mb-4">Receipt ledger of fulfilled predictions; methodology deltas; next-month risk map…</p>
+          <h3 class="text-lg font-semibold mb-1">Validation Report: August Accuracy Analysis</h3>
+          <p class="text-slate-400 text-sm mb-4">Receipts & timestamps: where we were right, where confidence tightened, and what’s next…</p>
           <div class="flex items-center justify-between">
-            <span class="text-xs text-slate-500">Aug 31, 2025</span>
-            <div class="flex gap-2">
-              <button class="px-3 py-1 bg-slate-700 rounded text-xs" onclick="gatePreview('premium')">Preview Gate</button>
-              <button class="px-3 py-1 bg-slate-700 rounded text-xs" onclick="editItem(this)">Edit</button>
-            </div>
+            <span class="text-xs text-slate-500">Aug 29, 2025</span>
+            <button class="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded text-xs">Edit</button>
           </div>
-        </article>
+        </div>
 
-        <!-- Executive -->
-        <article class="content-item glass p-6 rounded-2xl" data-access="executive">
+        <div class="content-item glass p-6 rounded-2xl" data-access="executive">
           <div class="flex items-center justify-between mb-3">
             <span class="access-level access-executive">Executive</span>
-            <div class="text-sm text-slate-400">C-suite</div>
+            <div class="text-sm text-slate-400">43 clients</div>
           </div>
-          <h3 class="text-lg font-semibold mb-2">Board Brief: Macro Shocks (Q4)</h3>
-          <p class="text-slate-400 text-sm mb-4">Scenario trees; mitigation strategy; comms playbook; KPI & OKR alignment…</p>
+          <h3 class="text-lg font-semibold mb-1">C-Suite Brief: Q4 Macro & Policy</h3>
+          <p class="text-slate-400 text-sm mb-4">Policy/fiscal drift; leadership transitions; board-ready mitigation playbook…</p>
           <div class="flex items-center justify-between">
-            <span class="text-xs text-slate-500">Sep 1, 2025</span>
-            <div class="flex gap-2">
-              <button class="px-3 py-1 bg-slate-700 rounded text-xs" onclick="gatePreview('executive')">Preview Gate</button>
-              <button class="px-3 py-1 bg-slate-700 rounded text-xs" onclick="editItem(this)">Edit</button>
-            </div>
+            <span class="text-xs text-slate-500">Aug 27, 2025</span>
+            <button class="px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded text-xs">Edit</button>
           </div>
-        </article>
-
-        <!-- More slots (placeholders for growth) -->
-        <article class="content-item glass p-6 rounded-2xl" data-access="public">
-          <span class="access-level access-public mb-3 inline-block">Public</span>
-          <h3 class="text-lg font-semibold mb-2">This Came True — August Validation</h3>
-          <p class="text-slate-400 text-sm mb-4">Round-up of headlines matching forecasts with links & timestamps…</p>
-          <div class="flex items-center justify-between">
-            <span class="text-xs text-slate-500">Aug 31, 2025</span>
-            <button class="px-3 py-1 bg-slate-700 rounded text-xs" onclick="openShare('http://umtcanon.blogspot.com/2025/08/this-came-true-august-2025-validation.html')">Share</button>
-          </div>
-        </article>
-
-        <article class="content-item glass p-6 rounded-2xl" data-access="subscriber">
-          <span class="access-level access-subscriber mb-3 inline-block">Subscriber</span>
-          <h3 class="text-lg font-semibold mb-2">September Forecast Pack (1–10)</h3>
-          <p class="text-slate-400 text-sm mb-4">Time-boxed market, policy, culture plays; confidence bands; watch-sources…</p>
-          <div class="flex items-center justify-between">
-            <span class="text-xs text-slate-500">Sep 1, 2025</span>
-            <button class="px-3 py-1 bg-slate-700 rounded text-xs" onclick="openCheckout('subscriber')">Unlock</button>
-          </div>
-        </article>
+        </div>
       </div>
     </section>
 
     <!-- ANALYTICS -->
     <section id="analytics" class="mb-16">
-      <h2 class="text-3xl font-bold mb-6">Analytics & Proof</h2>
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="analytics-card rounded-2xl p-6">
-          <h3 class="font-semibold mb-2">Forecast Accuracy</h3>
-          <div class="text-5xl font-extrabold kpi mb-2">78%</div>
-          <p class="text-slate-400 text-sm">Validated forecasts (Aug). EchoClaim™ ledger on file.</p>
-          <div class="divider my-4"></div>
-          <button class="btn btn-ghost w-full" onclick="openProof()">View Receipts</button>
-        </div>
-        <div class="analytics-card rounded-2xl p-6">
-          <h3 class="font
+      <div class="flex items-center justi
